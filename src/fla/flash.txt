@@ -1,0 +1,53 @@
+/*
+Aplicación Reloj ...
+Código (ActionScript) embebido en el archivo 'reloj.fla' editable 
+con Adobe Flash Professional (Adobe Flash CS4 Professional).
+Una vez compilado y comprimido, el archivo final (Small Web Format) es 'reloj.swf'.   
+***
+2004 - 2016 Foog.Software
+*/
+var brand = _root.brand;
+var ornament = _root.ornament;
+var calendar = _root.calendar;
+var nombreMarca = "";
+var calendario = false;
+adorno_txt.embedFonts = true;
+var adornoBajo = new Array("a", "A", "1", "b", "B", "6", "c", "C", "7", "d", "e", "9", "f", "0", "g", "h", "i", "j", "k", "l", "L", "m", "r", "s", "t", "u", "v", "w", "y", "Y", "z", "Z");
+var randomNum = Math.floor(Math.random() * 32);
+var adornoTodos = new Array("8", "D", "E", "F", "G", "H", "I", "J", "K", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "8", "a", "A", "1", "b", "B", "6", "c", "C", "7", "d", "e", "9", "f", "0", "g", "h", "i", "j", "k", "l", "L", "m", "r", "s", "t", "u", "v", "w", "y", "Y", "z", "Z");
+var randomNumTodos = Math.floor(Math.random() * 54);
+if (brand != "")
+{
+    nombreMarca = brand;
+    marca_txt.text = nombreMarca;
+} // end if
+if (ornament == "true")
+{
+    if (nombreMarca != "")
+    {
+        adorno_txt.text = adornoBajo[randomNum];
+    }
+    else
+    {
+        adorno_txt.text = "8";
+    } // end if
+} // end else if
+
+if (calendar == "true" || calendar == "false")
+{
+    calendario = true;
+} // end if
+_root.onEnterFrame = function ()
+{
+    myDate = new Date();
+    hourHand._rotation = myDate.getHours() * 30 + myDate.getMinutes() / 2;
+    hourHandShadow._rotation = myDate.getHours() * 30 + myDate.getMinutes() / 2;
+    minuteHand._rotation = myDate.getMinutes() * 6 + myDate.getSeconds() / 10;
+    minuteHandShadow._rotation = myDate.getMinutes() * 6 + myDate.getSeconds() / 10;
+    secondHand._rotation = myDate.getSeconds() * 6;
+    secondHandShadow._rotation = myDate.getSeconds() * 6;
+    if (calendario)
+    {
+        year_txt.text = myDate.getFullYear();
+    } // end if
+};

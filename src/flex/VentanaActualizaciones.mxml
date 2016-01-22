@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Aplicación Reloj ...
+Página Auxilar VentanaActualizaciones.mxml (Macromedia eXtensible Markup Language)
+***
+2004 - 2016 Foog.Software
+--> 
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml"
+	width = "305"
+	height = "230"
+	layout = "absolute"
+	title = "Actualizaciones ..."
+	showFlexChrome = "false"
+	alwaysInFront = "true"
+	maximizable = "false"
+	minimizable = "false"
+	resizable = "false"
+	creationComplete = "iniciarVentanaActualizaciones()"
+>
+<mx:states>
+	<mx:State name="Iniciando">
+		<mx:AddChild position="lastChild">
+		<mx:Image id ="peluco"  source="@Embed(source='/images/icon_128.png')" x = "88" y = "58"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label id = "pieTexto" visible = "true" width = "100%"  x = "2" y = "196" textAlign="center" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button id = "pieControl" visible = "false" x = "50" y = "196" label ="COMPROBAR ACTUALIZACIONES" click = "comprobarAhora()"/>
+		</mx:AddChild>
+	</mx:State>
+	<mx:State name="ErrorActualizador">
+		<mx:AddChild position="lastChild">
+		<mx:Label id = "tipoError" width = "100%"  x = "2" y = "40" textAlign="center" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/advertencia.png')" width = "128" height = "128" x = "88" y = "58" toolTip = "¡ERROR!"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  x = "110" y = "196" label ="CANCELAR" click = "cerrarManualmente()"/>
+		</mx:AddChild>
+	</mx:State>
+	<mx:State name="HayActualizaciones">
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/icon_36.png')" x = "2" y = "38" toolTip = "Actualizaciones ..."/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "244"  x = "40" y = "44" textAlign="center" text = "¡Hay una nueva versión disponible!" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "140"  x = "60" y = "86" textAlign="left" text = "Versión actual :" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "60"  id = "instalada" x = "170" y = "86" textAlign="right" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "140"  x = "60" y = "124" textAlign="left" text = "Nueva versión :" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "60"  id = "nueva" x = "170" y = "124" textAlign="right" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/ok.png')" x = "232" y = "124"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "100%"  y = "164" textAlign="center" text = "¿Quieres descargarla ahora?" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  width = "90" x = "50" y = "196" label ="NO" click = "cerrarManualmente()"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  width = "90" x = "160" y = "196" label = "SI" click = "actualizador.downloadUpdate()"/>
+		</mx:AddChild>
+		</mx:State>
+		<mx:State name="NoHayActualizaciones">
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/icon_36.png')" x = "4" y = "38" toolTip = "Actualizaciones ..."/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label id = "appInstalada" width = "244"  x = "40" y = "46" textAlign="center" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "100%"  x = "4" y = "72" textAlign="left" text = 'Información del Sistema : ' styleName = "textoBold" fontSize = "9"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Text id = "systemInfo" text = "" height = "50" width = "100%" x = "4" y = "86" styleName = "textoInfo"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "100%"  x = "4" y = "136" textAlign="left" text = 'Sobre el Reloj: ' styleName = "textoBold" fontSize = "9"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Text id = "sobreReloj" text = "" height = "20" width = "100%" x = "4" y = "146" styleName = "textoInfo"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Text  text = "Actualmente no hay nuevas versiones disponibles de esta aplicación. Gracias ...!" width = "100%" x = "4" y = "160" styleName = "textoInfo" textAlign = "left"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  horizontalCenter = "0" y = "196" label ="CERRAR" click = "cerrarManualmente()"/>
+		</mx:AddChild>
+	</mx:State>
+	<mx:State name="Descargando">
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/icon_36.png')" x = "4" y = "38" toolTip = "Actualizaciones ..."/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "244"  x = "40" y = "46" textAlign="center" text = "Descargando nueva versión:" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label id = "vers" width = "100%"  x = "2" y = "66" textAlign="center" text = "" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:ProgressBar  id = "barraProgreso" width = "280" x ="11" y = "120" labelPlacement = "bottom" minimum = "0" themeColor = "haloGreen" maximum = "100" direction = "right" label = 'Descargado : %3%%' mode = "manual"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "100%"  x = "2" y = "196" textAlign="center" text = "Un momento por favor ..." styleName = "textoBold"/>
+		</mx:AddChild>
+	</mx:State>
+	<mx:State name="Instalar">
+		<mx:AddChild position="lastChild">
+		<mx:Image source="@Embed(source='/images/icon_36.png')" x = "4" y = "38" toolTip = "Actualizaciones ..."/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Label width = "244"  x = "40" y = "46" textAlign="center" text = "¡Descarga completa!" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Text id = "detalles" text = "" width = "94%" x = "8" y = "86" styleName = "textoBold"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  x = "8" y = "196" label = "CANCELAR" click = "cerrarManualmente()"/>
+		</mx:AddChild>
+		<mx:AddChild position="lastChild">
+		<mx:Button  x = "100" y = "196" width ="198" label = "INSTALAR AHORA" click = "instalarAhora()"/>
+		</mx:AddChild>
+	</mx:State>
+</mx:states>
+
+<mx:Script>
+		<![CDATA[
+		import air.update.events.StatusUpdateErrorEvent;
+		import air.update.events.StatusUpdateEvent;
+		import air.update.events.DownloadErrorEvent;
+		import air.update.events.UpdateEvent;
+		import air.update.ApplicationUpdater;
+				
+		private var cierreManualBloqueado:Boolean = false;
+		private var actualizador:ApplicationUpdater = new ApplicationUpdater();
+		private var appIsFirstRun:String;
+		private var appPreviousVersion:String;
+		private var appCurrentVersion:String;
+		private var appNewerVersion:String;
+		private var appDetails:String;
+		private var temporizador:Timer;
+		private var sistemaOperativo:String = Capabilities.os;
+		private var totalBytes:Number = 0;
+		private var totalBytesFormato:String;
+		private var repoArray:Array;
+		private function iniciarVentanaActualizaciones():void{
+		currentState = "Iniciando";
+		repoArray = repositorio.text.split("/");
+		pieTexto.text = "Dos segundos, por favor ...";
+		peluco.toolTip = "Conexión : " + repoArray[2];
+		actualizador.delay = 0;
+		actualizador.updateURL = repositorio.text;
+		actualizador.addEventListener(UpdateEvent.INITIALIZED, actualizadorIniciado);
+		actualizador.addEventListener(StatusUpdateEvent.UPDATE_STATUS, estadoActualizador);
+		actualizador.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, estadoActualizadorError);
+		actualizador.addEventListener(UpdateEvent.DOWNLOAD_START, inicioDescarga);
+		actualizador.addEventListener(ProgressEvent.PROGRESS, progresoDescarga);
+		actualizador.addEventListener(UpdateEvent.DOWNLOAD_COMPLETE, descargaCompleta);
+		actualizador.addEventListener(DownloadErrorEvent.DOWNLOAD_ERROR, errorEnDescarga);
+		actualizador.initialize();
+		}
+		
+		private function actualizadorIniciado(event:UpdateEvent):void{
+			appIsFirstRun = event.target.isFirstRun;
+			appPreviousVersion = event.target.previousVersion;
+			appCurrentVersion = event.target.currentVersion;
+			temporizador = new Timer(2000,1);
+			temporizador.addEventListener(TimerEvent.TIMER_COMPLETE, actualizadorInicializado);
+			temporizador.start();
+		}
+		private function actualizadorInicializado(event:TimerEvent):void{
+			temporizador.stop();
+			pieTexto.visible = false;
+			pieControl.visible = true;
+		}
+		private function comprobarAhora():void{
+			pieTexto.text = "Un monento por favor ...";
+			pieControl.visible =false;
+			pieTexto.visible = true;
+			cierreManualBloqueado = true;
+			actualizador.checkNow();		
+		}
+		private function estadoActualizador(event:StatusUpdateEvent):void{
+			event.preventDefault();
+			cierreManualBloqueado = false;
+					if(event.available){
+					 currentState = "HayActualizaciones";
+					 instalada.text = appCurrentVersion;
+					 appNewerVersion = event.version
+					 nueva.text = appNewerVersion;
+					 appDetails = event.details.toString();
+					
+					}else{
+						currentState =	"NoHayActualizaciones";
+						appInstalada.text = "Reloj : " + appCurrentVersion;
+						var systemInformation:String = "Sistema Operativo: " + sistemaOperativo + "\nAdobe AIR: " + NativeApplication.nativeApplication.runtimeVersion.substring(0,5) + "\nFlash Player: " + Capabilities.playerType + " (" + Capabilities.version + ")";
+						systemInfo.text = systemInformation;
+						sobreReloj.text = "Versión instalada: " + appCurrentVersion;
+						}
+					
+		}
+		private function estadoActualizadorError(event:StatusUpdateErrorEvent):void{
+			cierreManualBloqueado = false;
+			currentState = "ErrorActualizador";
+			tipoError.text = "¡Error de conexión!";
+		}
+		
+		private function inicioDescarga(event:UpdateEvent):void{
+			cierreManualBloqueado = true;
+			currentState = "Descargando";
+			vers.text = "Reloj " + appNewerVersion; 
+		}
+		private function progresoDescarga(event:ProgressEvent):void{
+			barraProgreso.setProgress(event.bytesLoaded, event.bytesTotal);
+			totalBytes = event.bytesTotal;
+			var totalKB:Number = Math.round((totalBytes / 1024) * 100) / 100;
+			totalBytesFormato = formato.format(totalKB);
+		}
+		private function errorEnDescarga(event:DownloadErrorEvent):void{
+			cierreManualBloqueado = false;
+			currentState = "ErrorActualizador";
+			tipoError.text = "¡Error en la descarga de archivos!";
+			
+		}
+		private function descargaCompleta(event:UpdateEvent):void{
+			cierreManualBloqueado = false;
+			event.preventDefault();
+			temporizador = new Timer(1000,1);
+			temporizador.addEventListener(TimerEvent.TIMER_COMPLETE, elegir);
+			temporizador.start();
+				function elegir():void{
+					temporizador.stop();
+					currentState = "Instalar";
+					detalles.text = 'La versión más reciente (' + appNewerVersion + ') para ' + sistemaOperativo + ' del "widget" de escritorio: Reloj, está lista para su instalación en este equipo.' + '\nArchivo: "reloj.air" (' + totalBytesFormato + ' KB) ...';			
+				}
+			
+		}
+		private function instalarAhora():void{
+		actualizador.installUpdate();
+		}
+		private function cerrarManualmente():void{
+			if(!cierreManualBloqueado){
+				var evt:Event = new Event("cierreManual");
+				dispatchEvent(evt);
+				this.close();
+			}
+		}
+		]]>
+</mx:Script>
+<mx:Style>
+	.appCloseButton{
+	up-skin: Embed("/images/cerrar_0.png");
+	over-skin: Embed("/images/cerrar_1.png");
+	down-skin: Embed("/images/cerrar_2.png");
+	}
+	.textoBold{
+	font-weight:bold;
+	color:#003300;
+	font-size:11px;
+	}
+	.textoNormal{
+	font-weight:normal;
+	color:#003300;
+	font-size:11px;
+	}
+	.textoInfo{
+	font-weight:normal;
+	color:#003300;
+	font-size:9px;
+	text-align:center;
+	}
+</mx:Style> 
+    
+<mx:VBox
+	width = "305"
+	height = "230"
+	verticalScrollPolicy = "off"
+	horizontalScrollPolicy = "off"
+	color = "0x333333"
+	borderColor = "0x828D7C"
+	borderStyle="solid"
+	borderThickness = "2"
+	cornerRadius = "0"
+	verticalGap = "0"
+	horizontalGap = "0"
+	backgroundImage="@Embed('/images/fondoAuxiliar.png')"
+	>
+<mx:HBox width = "100%" height = "34" backgroundImage="@Embed('/images/barraAuxiliar.png')" paddingTop = "2" >
+	<mx:Text text = "Actualizaciones ..." width = "260" paddingLeft = "4" paddingTop = "6" fontStyle = "normal" fontWeight = "bold" color = "0xFFFFFF"/>
+	<mx:Button id = "cerrar"  styleName = "appCloseButton" click = "cerrarManualmente()"/>
+</mx:HBox>
+</mx:VBox>
+<mx:NumberFormatter
+id = "formato"
+decimalSeparatorFrom = ","
+decimalSeparatorTo = ","
+precision = "-1"
+rounding = "none"
+thousandsSeparatorFrom = "."
+thousandsSeparatorTo = "."
+useNegativeSign = "false"
+useThousandsSeparator = "true"/>
+<mx:Text id = "repositorio" width = "0" height = "0" text = "" visible = "false"/>	
+</mx:Window>	

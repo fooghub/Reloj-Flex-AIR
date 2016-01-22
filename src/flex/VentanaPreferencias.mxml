@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Aplicación Reloj ...
+Página Auxilar VentanaPreferencias.mxml ((Macromedia eXtensible Markup Language)
+***
+2004 - 2016 Foog.Software
+--> 
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml"
+	width = "305"
+	height = "240"
+	layout = "absolute"
+	title = "Preferencias ..."
+	showFlexChrome = "false"
+	alwaysInFront = "true"
+	maximizable = "false"
+	minimizable = "false"
+	resizable = "false"
+>
+<mx:Script>
+		<![CDATA[
+			private function cambiarAjustesDelReloj():void{
+			var nuevosAjustes:String = (marca.text == "(no hay marca)")? "" : marca.text;
+			nuevosAjustes += ";" + adorno.selected.toString() + ";" + calendario.selected.toString();
+			var archivoPreferencias:File = File.applicationStorageDirectory.resolvePath("preferences_101.txt");
+			var corrienteDeArchivo:FileStream = new FileStream();
+			corrienteDeArchivo.open(archivoPreferencias, FileMode.WRITE);
+			corrienteDeArchivo.writeUTFBytes(nuevosAjustes);
+			corrienteDeArchivo.close();
+			var evt:Event = new Event("ajustesModificados");
+			dispatchEvent(evt);
+			this.close();
+		}
+		private function editarMarcaDelReloj():void{
+			if (edit.selected){
+					marca.text = "";
+					marca.enabled = true;
+					marca.setFocus();
+					edit.label = 'Máximo quince caracteres (excepto ";")';
+					if(!aceptar.enabled){aceptar.enabled = true;}
+				}else{
+					edit.label ="Editar";
+					marca.text = campoOculto.text;
+					marca.enabled = false;
+					if(!accesorios.selected){aceptar.enabled = false;}
+					}
+		}
+		private function editarAccesorios():void{
+			if(accesorios.selected){
+				adorno.enabled = true;
+				calendario.enabled = true;
+				if(!aceptar.enabled){aceptar.enabled = true};
+			}else{
+				adorno.enabled = false;
+				calendario.enabled = true;
+				if(!edit.selected){aceptar.enabled = false;}
+			}		
+		}
+		private function cerrarManualmente():void{
+			var evt:Event = new Event("cierreManual");
+			dispatchEvent(evt);
+			this.close();
+		}
+		
+		
+		]]>
+</mx:Script>
+<mx:Style>
+	.appCloseButton{
+	up-skin: Embed("/images/cerrar_0.png");
+	over-skin: Embed("/images/cerrar_1.png");
+	down-skin: Embed("/images/cerrar_2.png");
+	}
+	.textoBold{
+	font-weight:bold;
+	color:#003300;
+	font-size:11px;
+	}
+	.textoNormal{
+	font-weight:normal;
+	color:#003300;
+	font-size:11px;
+	}
+	.textoInfo{
+	font-weight:normal;
+	color:#003300;
+	font-size:9px;
+	text-align:center;
+	}
+</mx:Style>
+<mx:VBox
+	width = "305"
+	height = "240"
+	verticalScrollPolicy = "off"
+	horizontalScrollPolicy = "off"
+	borderColor = "0x828D7C"
+	borderStyle="solid"
+	borderThickness = "2"
+	cornerRadius = "0"
+	verticalGap = "0"
+	backgroundImage="@Embed('/images/fondoAuxiliar.png')"
+>
+<mx:HBox width = "100%" height = "34" backgroundImage="@Embed('/images/barraAuxiliar.png')" paddingTop = "2" >
+	<mx:Text text = "Preferencias ..." width = "260" paddingLeft = "4" paddingTop = "6" fontStyle = "normal" fontWeight = "bold" color = "0xFFFFFF"/>
+	<mx:Button id = "cerrar"  styleName = "appCloseButton" click = "cerrarManualmente()"/>
+</mx:HBox>
+<mx:VBox
+	width = "100%"
+	height = "100%"
+	paddingTop = "2"
+	paddingRight = "4"
+	paddingLeft = "4" 
+	paddingBottom = "4"
+	verticalScrollPolicy="off"
+	horizontalScrollPolicy="off"
+>
+<mx:HBox width = "100%" height = "36">
+	<mx:Image source="@Embed(source='/images/icon_36.png')" width = "36" height = "36" toolTip="Preferencias ..."/>
+	<mx:Text text = "Marca del Reloj:" width = "246" height = "36" styleName = "textoBold" paddingTop = "8"/>
+</mx:HBox>
+<mx:TextInput
+	id = "marca"
+	width = "100%"
+	enabled = "false"
+	condenseWhite = "false"
+	editable = "true"
+	maxChars = "15"
+	restrict = "^;"
+	color = "0x0B333C"
+	fontFamily = "Verdana"
+	fontStyle = "normal"
+	fontWeight = "normal"
+	text = "{campoOculto.text}"
+/>
+<mx:CheckBox id = "edit" label = "Editar marca." paddingLeft = "4" selected = "false" click = "editarMarcaDelReloj()" styleName = "textoNormal"/>
+<mx:HRule width = "100%" strokeColor="0xC4CCCC" shadowColor="0xEEEEEE" strokeWidth="1"/>
+<mx:CheckBox id = "accesorios" label = "Accesorios:" paddingLeft = "4" selected = "false" click = "editarAccesorios()" styleName = "textoBold"/>
+<mx:HBox horizontalAlign="left" width="100%">
+	<mx:CheckBox id = "adorno" label = "Adorno." selected = "false" enabled = "false" styleName = "textoNormal" paddingLeft = "4"/>
+	<mx:CheckBox id = "calendario" label = "Calendario." selected = "false" enabled = "false" styleName = "textoNormal" paddingLeft = "46"/>
+</mx:HBox>
+<mx:HRule width = "100%" strokeColor="0xC4CCCC" shadowColor="0xEEEEEE" strokeWidth="1"/>
+<mx:HBox horizontalAlign="center" width="100%">
+	<mx:Button id = "cancelar" label="CANCELAR" click = "cerrarManualmente()"/>
+	<mx:Button id = "aceptar" label="ACEPTAR&#160;" click = "cambiarAjustesDelReloj()" enabled = "false"/>
+</mx:HBox>
+</mx:VBox>
+</mx:VBox>
+<mx:Text id = "campoOculto" width ="0" height = "0" text = "" visible = "false"/>
+</mx:Window>	

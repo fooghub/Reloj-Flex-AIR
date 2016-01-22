@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Aplicación Reloj ...
+Página principal index.mxml (Macromedia eXtensible Markup Language)
+Importa las siguentes ventanas y paquetes auxiliares:
+VentanaPreferencias.mxml
+VentanaAcercaDe.mxml
+VentanaActualizaciones.mxml
+ComprobarSitiosPropios.as (ActionScript)
+***
+2004 - 2016 Foog.Software
+--> 
+<mx:WindowedApplication
+xmlns:mx="http://www.adobe.com/2006/mxml"
+backgroundAlpha="0"
+width = "0"
+height = "0"
+showStatusBar = "false"
+showTitleBar = "false"
+borderStyle = "none"
+autoExit="true"
+applicationComplete="iniciar()">
+	
+	<mx:Script>
+		<![CDATA[		
+		
+		import VentanaPreferencias;
+		import VentanaAcercaDe;
+		import VentanaActualizaciones;
+		import ComprobarSitiosPropios;
+		import flash.display.Screen;
+		import air.net.URLMonitor;
+		
+		
+			private var monitor:URLMonitor = new URLMonitor(new URLRequest("http://www.google.com")); 
+			private var ventanaDelReloj:NativeWindow;
+			private var relojMnuContextual:NativeMenu;
+			private var marcaDelReloj:String = "";
+			private var adornoDelReloj:String = "";	
+			private var calendarioDelReloj:String = "";	
+			private var applicationVersionNumber:String;
+			private	var centroPantallaX:int = Screen.mainScreen.bounds.width / 2;
+			private	var centroPantallaY:int = Screen.mainScreen.bounds.height / 2;
+			private var fecha:Date = new Date();
+			private var anualidad:String = String(fecha.getFullYear());
+			private var actualizacionesDisponibles:Boolean;
+			private var webFoogDisponible:Boolean;
+			private var repositorioActualizaciones:String;
+			private var contadorSitios:Number = 0;
+			
+			
+			
+		private function obtenerEstadoInicialDeRed():void{
+			monitor.addEventListener(StatusEvent.STATUS, obtenerConectividadDeRed);
+            monitor.start();
+        }
+	
+			
+		private function escucharCambiosEnRed(e:Event):void{
+			monitor.addEventListener(StatusEvent.STATUS, obtenerConectividadDeRed);
+            monitor.start();
+        }
+		
+		private function obtenerConectividadDeRed(e:StatusEvent):void{
+			
+				if(monitor.available){			
+					verificarDisponibilidadSitios(contadorSitios);								
+				}
+				
+				
+			monitor.stop();			
+		}
+			
+			private function lanzarVentanaDelReloj():void{
+				var opciones:NativeWindowInitOptions = new NativeWindowInitOptions();
+				opciones.maximizable = false;
+				opciones.minimizable = false;
+				opciones.resizable = false;
+				opciones.systemChrome = NativeWindowSystemChrome.NONE;
+				opciones.transparent = true;
+				opciones.type = NativeWindowType.LIGHTWEIGHT;				
+				ventanaDelReloj = new NativeWindow(opciones);
+				ventanaDelReloj.width = 305;
+				ventanaDelReloj.height = 305;
+				ventanaDelReloj.x = (Screen.mainScreen.bounds.width) - 320;
+				ventanaDelReloj.y = 10;
+				var cadenaAjustes:String = leerAjustesDelReloj();
+				var estabilidad:RegExp = /^.{0,15};(true|false);(true|false)$/;
+				var estable:Boolean = estabilidad.test(cadenaAjustes);
+					if(!estable){
+						copiarArchivoPreferencias();
+						cadenaAjustes = ";false;false";
+					}
+				var matrizAjustes:Array = cadenaAjustes.split(";");
+				marcaDelReloj = matrizAjustes[0];
+				adornoDelReloj = matrizAjustes[1];	
+				calendarioDelReloj = matrizAjustes[2];	
+				var cargador:Loader = new Loader();				
+				cargador.load(new URLRequest("swf/reloj.swf?brand=" + marcaDelReloj + "&ornament=" + adornoDelReloj + "&calendar=" + calendarioDelReloj ));
+				cargador.contentLoaderInfo.addEventListener(Event.COMPLETE,visualizarVentanaDelReloj);
+				relojMnuContextual = construirMnuContextual();			
+			}
+			
+			
+			private function visualizarVentanaDelReloj(event:Event):void{		
+			
+				ventanaDelReloj.stage.scaleMode = StageScaleMode.NO_SCALE;
+				ventanaDelReloj.stage.align = StageAlign.TOP_LEFT;
+				ventanaDelReloj.stage.addChild(event.target.loader);
+				ventanaDelReloj.activate();
+				ventanaDelReloj.stage.addEventListener(MouseEvent.MOUSE_DOWN, permitirMoverVentanaDelReloj);
+				ventanaDelReloj.stage.addEventListener(MouseEvent.MOUSE_UP, cambiarEstiloDelCursor);
+				ventanaDelReloj.stage.addEventListener(MouseEvent.RIGHT_CLICK, abrirMnuContextual);	
+									
+			}
+			
+			
+			
+			private function construirMnuContextual():NativeMenu{
+				var mnuContextual:NativeMenu = new NativeMenu();
+				var title:NativeMenuItem = mnuContextual.addItem(new NativeMenuItem("Reloj " + applicationVersionNumber));
+				var preferences:NativeMenuItem = mnuContextual.addItem(new NativeMenuItem("Personalizar"));
+				var actualizaciones:NativeMenuItem = mnuContextual.addItem(new NativeMenuItem("Actualizaciones"));
+				var separator:NativeMenuItem = mnuContextual.addItem(new NativeMenuItem("",true));
+				var exit:NativeMenuItem = mnuContextual.addItem(new NativeMenuItem("Cerrar"));
+					if(actualizacionesDisponibles){
+						title.checked = false;
+						actualizaciones.enabled = true;
+						actualizaciones.checked = true;					
+					}else{
+						title.checked = true;
+						actualizaciones.enabled = false;
+						actualizaciones.checked = false;							
+					}
+				return mnuContextual;
+			}
+
+			private function abrirMnuContextual(event:MouseEvent):void{
+			
+				if(NativeApplication.nativeApplication.openedWindows.length < 3){
+				relojMnuContextual.addEventListener(Event.SELECT, seleccionarControlador);
+				relojMnuContextual.display(ventanaDelReloj.stage, event.stageX, event.stageY);
+				}
+			}
+
+			private function seleccionarControlador(menuEvent:Event):void{
+			var etiqueta:String = menuEvent.target.label;
+			var modelo:RegExp = /Reloj/;
+			var resultado:Boolean = modelo.test(etiqueta);
+				if(resultado){
+					etiqueta = "Reloj";
+				}
+				
+				switch(etiqueta){
+					case "Reloj":
+					visualizarVentanaAcercaDe()
+					break;
+					case "Personalizar":
+					visualizarVentanaPreferencias();
+					break;
+					case "Actualizaciones":
+					visualizarVentanaActualizaciones();
+					break;
+					case "Cerrar":
+					cerrarPrograma();
+					break;
+				}		
+			}
+			
+			
+			
+			private function permitirMoverVentanaDelReloj(event:MouseEvent):void{
+				if(NativeApplication.nativeApplication.openedWindows.length < 3){
+					ventanaDelReloj.stage.nativeWindow.startMove();
+					Mouse.cursor = MouseCursor.HAND;
+				}	
+			}
+			private function centrarVentanaEnPantalla(ventana:NativeWindow):void{
+				ventana.x = centroPantallaX - ventana.width / 2;
+				ventana.y = centroPantallaY - ventana.height / 2;
+			}
+			
+			private function cerrarPrograma():void{
+				NativeApplication.nativeApplication.exit();
+							
+			}
+			
+			private function cambiarEstiloDelCursor(event:MouseEvent):void{
+				Mouse.cursor = MouseCursor.AUTO;
+							
+			}
+			
+			private function leerAjustesDelReloj():String{
+				var ajustes:String = "";
+				var ficheroPreferencias:File = File.applicationStorageDirectory; 
+				ficheroPreferencias = ficheroPreferencias.resolvePath("preferences_101.txt");
+				var secuenciaDeArchivo:FileStream = new FileStream();
+				secuenciaDeArchivo.open(ficheroPreferencias, FileMode.READ);
+				ajustes = secuenciaDeArchivo.readUTFBytes(secuenciaDeArchivo.bytesAvailable); 
+				secuenciaDeArchivo.close();
+				return ajustes; //marca;adorno;calendario
+			} 
+			
+			
+			private function visualizarVentanaPreferencias():void{
+				centrarVentanaEnPantalla(ventanaDelReloj);
+				var preferencias:VentanaPreferencias = new VentanaPreferencias();
+				preferencias.systemChrome = NativeWindowSystemChrome.NONE;
+				preferencias.type = NativeWindowType.LIGHTWEIGHT;
+				preferencias.transparent = true;
+				preferencias.open(true);
+				preferencias.nativeWindow.x = ventanaDelReloj.x;
+				preferencias.nativeWindow.y = ventanaDelReloj.y + 116;
+				preferencias.nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;
+				preferencias.nativeWindow.stage.align = StageAlign.TOP_LEFT;
+				var marcaInicial:String = (marcaDelReloj != "") ? marcaDelReloj : "(no hay marca)";
+				preferencias.campoOculto.text = marcaInicial;
+				var adornoInicial:Boolean = (adornoDelReloj == "true")? preferencias.adorno.selected = true : preferencias.adorno.selected = false;
+				var calendarioInicial:Boolean = (calendarioDelReloj == "true")? preferencias.calendario.selected = true : preferencias.calendario.selected = false;
+				preferencias.addEventListener("ajustesModificados", restaurarReloj);
+				preferencias.addEventListener("cierreManual", situarReloj);	
+			}
+			
+			
+			private function situarReloj(evt:Event):void{
+				ventanaDelReloj.x = (Screen.mainScreen.bounds.width) - 320;
+				ventanaDelReloj.y = 10;			
+			}
+			
+			private function visualizarVentanaAcercaDe():void{
+				centrarVentanaEnPantalla(ventanaDelReloj);
+				var acerca:VentanaAcercaDe = new VentanaAcercaDe();
+				acerca.systemChrome = NativeWindowSystemChrome.NONE;
+				acerca.type = NativeWindowType.LIGHTWEIGHT;
+				acerca.transparent = true;
+				acerca.open(true);
+					if(webFoogDisponible){
+						acerca.enlace.enabled = true;
+					}
+				acerca.vers.text = "Reloj " + applicationVersionNumber; 
+				acerca.year.text = anualidad; 
+				acerca.nativeWindow.x = ventanaDelReloj.x;
+				acerca.nativeWindow.y = ventanaDelReloj.y + 116;
+				acerca.nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;
+				acerca.nativeWindow.stage.align = StageAlign.TOP_LEFT;
+				acerca.addEventListener("cierreManual", situarReloj);	
+			}
+			private function visualizarVentanaActualizaciones():void{
+				centrarVentanaEnPantalla(ventanaDelReloj);
+				var actualizaciones:VentanaActualizaciones = new VentanaActualizaciones();
+				actualizaciones.systemChrome = NativeWindowSystemChrome.NONE;
+				actualizaciones.type = NativeWindowType.LIGHTWEIGHT;
+				actualizaciones.transparent = true;
+				actualizaciones.open(true);
+				actualizaciones.repositorio.text = repositorioActualizaciones;
+				actualizaciones.nativeWindow.x = ventanaDelReloj.x;
+				actualizaciones.nativeWindow.y = ventanaDelReloj.y + 116;
+				actualizaciones.nativeWindow.stage.scaleMode = StageScaleMode.NO_SCALE;
+				actualizaciones.nativeWindow.stage.align = StageAlign.TOP_LEFT;
+				actualizaciones.addEventListener("cierreManual", situarReloj);	
+			}
+			private function restaurarReloj(evt:Event):void{
+				ventanaDelReloj.close();
+				lanzarVentanaDelReloj();
+			 } 
+			
+			private function obtenerAirApplicationVersion():String{
+				var airApplicationVersion:String = "";
+				var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
+				var air:Namespace = appXML.namespaceDeclarations()[0];
+				airApplicationVersion = appXML.air::versionNumber;
+				return airApplicationVersion;
+			}
+			
+			
+			
+			private function comprobarActualizaciones(repositorioActualizaciones:String):void{
+				var currentVersion:String = applicationVersionNumber;
+				var newerVersion:String = "undefined";
+				var archivoRemotoUpdate:XML = new XML();
+				var archivoRemotoUpdateURL:String = repositorioActualizaciones;
+				var consultaXMLURL:URLRequest = new URLRequest(archivoRemotoUpdateURL);
+				var cargadorArchivoRemotoUpdate:URLLoader = new URLLoader(consultaXMLURL);
+				cargadorArchivoRemotoUpdate.addEventListener(Event.COMPLETE, detectarCargaXML);
+				cargadorArchivoRemotoUpdate.addEventListener("ioError", errorEnCargaXML);
+					function detectarCargaXML(event:Event):void
+					{	archivoRemotoUpdate = XML(cargadorArchivoRemotoUpdate.data);
+						var leerVersionNumber:Namespace = archivoRemotoUpdate.namespaceDeclarations()[0];
+						newerVersion = archivoRemotoUpdate.leerVersionNumber::versionNumber;
+							if(newerVersion > currentVersion){
+								actualizacionesDisponibles = true;
+								relojMnuContextual = construirMnuContextual();
+								
+							}
+					}
+					function  errorEnCargaXML(event:Event):void{
+						actualizacionesDisponibles = false;
+						relojMnuContextual = construirMnuContextual();
+					}
+					
+			}
+			
+			private function verificarDisponibilidadSitios(contadorSitios:Number):void{
+			var sitiosWeb:Array = new Array("http://www.foog.es/", "http://www.foog.260mb.org/");
+			var sitiosWebElementos:Number = sitiosWeb.length - 1;
+			var verificando:ComprobarSitiosPropios = new ComprobarSitiosPropios(sitiosWeb[contadorSitios]);
+			verificando.addEventListener("estadoSitio", modificador);
+				function modificador():void{
+				
+					if(verificando.estadoHTTP == 200){
+						if (sitiosWeb[contadorSitios] == "http://www.foog.es/"){webFoogDisponible = true;} 
+						repositorioActualizaciones = sitiosWeb[contadorSitios] +"download/air/reloj/updates/update.xml";
+						comprobarActualizaciones(repositorioActualizaciones);
+						}else{
+						contadorSitios ++;
+						if(contadorSitios <= sitiosWebElementos){verificarDisponibilidadSitios(contadorSitios);}				
+						}
+				}
+			}
+				
+			private function copiarArchivoPreferencias():void{
+				var ficheroPreferencias:File = File.applicationStorageDirectory.resolvePath("preferences_101.txt");
+				var ficheroOriginal:File = File.applicationDirectory.resolvePath("txt/preferences_101.txt"); 
+				var nuevoFichero:File = ficheroPreferencias; 
+				ficheroOriginal.copyTo(nuevoFichero, true); 
+			
+			}
+			private function iniciar():void{
+				
+				var ficheroPrefs:File = File.applicationStorageDirectory; 
+				ficheroPrefs = ficheroPrefs.resolvePath("preferences_101.txt");
+					
+					if(!ficheroPrefs.exists){
+						copiarArchivoPreferencias();
+					}
+				
+				applicationVersionNumber = obtenerAirApplicationVersion(); 	
+				NativeApplication.nativeApplication.addEventListener(Event.NETWORK_CHANGE,escucharCambiosEnRed);
+				obtenerEstadoInicialDeRed();
+				lanzarVentanaDelReloj();
+				}					
+			
+		]]>
+	</mx:Script>
+	
+</mx:WindowedApplication>	

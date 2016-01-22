@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Aplicación Reloj ...
+Página Auxilar VentanaAcercaDe.mxml (Macromedia eXtensible Markup Language)
+***
+2004 - 2016 Foog.Software
+--> 
+<mx:Window xmlns:mx="http://www.adobe.com/2006/mxml"
+width = "305"
+height = "230"
+layout = "absolute"
+title = "Acerca de ..."
+showFlexChrome = "false"
+alwaysInFront = "true"
+maximizable = "false"
+minimizable = "false"
+resizable = "false"
+>
+<mx:Script>
+		<![CDATA[
+		
+		
+		private function cerrarManualmente():void{
+			var evt:Event = new Event("cierreManual");
+			dispatchEvent(evt);
+			this.close();
+		}
+		
+		private function abrirEnNavegador(url:String):void{
+			navigateToURL(new URLRequest(url));
+			cerrarManualmente();
+		}
+		
+		]]>
+</mx:Script>
+<mx:Style>
+	.appCloseButton{
+	up-skin: Embed("/images/cerrar_0.png");
+	over-skin: Embed("/images/cerrar_1.png");
+	down-skin: Embed("/images/cerrar_2.png");
+	}
+	.texto1{
+	font-weight:bold;
+	color:#333333;
+	font-size:11px;
+	text-align:center;
+	}
+	.texto2{
+	font-weight:normal;
+	color:#333333;
+	font-size:9px;
+	text-align:center;
+	}
+	.texto3{
+	font-weight:normal;
+	color:#333333;
+	font-size:9px;
+	}
+	.texto4{
+	font-weight:normal;
+	color:#333333;
+	font-size:10px;
+	}
+	.texto5{
+	font-weight:normal;
+	color:#333333;
+	font-size:8px;
+	}
+</mx:Style>
+
+<mx:VBox
+	width = "305"
+	height = "230"
+	verticalScrollPolicy = "off"
+	horizontalScrollPolicy = "off"
+	color = "0x333333"
+	borderColor = "0x828D7C"
+	borderStyle="solid"
+	borderThickness = "2"
+	cornerRadius = "0"
+	verticalGap = "0"
+	horizontalGap = "0"
+	backgroundImage="@Embed('/images/fondoAuxiliar.png')"
+>
+<mx:HBox width = "100%" height = "34" backgroundImage="@Embed('/images/barraAuxiliar.png')" paddingTop = "2" >
+<mx:Text text = "Acerca de ..." width = "260" paddingLeft = "4" paddingTop = "6" fontStyle = "normal" fontWeight = "bold" color = "0xFFFFFF"/>
+<mx:Button id = "cerrar"  styleName = "appCloseButton" click = "cerrarManualmente()"/>
+</mx:HBox>
+<mx:VBox
+	width = "100%"
+	height = "100%"
+	paddingTop = "2"
+	paddingRight = "4"
+	paddingLeft = "4" 
+	paddingBottom = "4"
+	verticalScrollPolicy="off"
+	horizontalScrollPolicy="off"
+	verticalGap = "0"
+	horizontalGap = "0"
+>
+<mx:HBox width = "100%" height = "36">
+	<mx:Image source="@Embed(source='/images/icon_36.png')" width = "36" height = "36" toolTip="{vers.text}"/>
+	<mx:VBox width = "246" height = "36" verticalGap = "0">
+		<mx:Text id = "vers" text = "" width = "246" height = "18" styleName = "texto1"/>
+		<mx:Text text = '"Widget" de escritorio para Windows y OS X.' width = "246" height = "18" styleName = "texto2"/>
+	</mx:VBox>
+</mx:HBox>
+<mx:Text text = "El original forma parte de los ejemplos distribuidos por: Adobe Developer Connection — ActionScript Technology Center. " width = "100%" styleName = "texto3"/>
+<mx:Text text = "Esta es una adaptación con FlexSDK, para Adobe AIR versión 3.1 ó superior." width = "100%" styleName = "texto3"/>
+<!-- modi -->
+<mx:HBox width = "100%" height = "22" verticalAlign ="middle" horizontalAlign ="center" horizontalGap = "0" verticalGap = "0" paddingTop = "0" paddingBottom = "0">
+	<mx:LinkButton
+	id ="fuente"
+	enabled = "true"
+	icon="@Embed('images/github16.png')"
+	label="Código fuente en GitHub"
+	fontSize = "11"
+	color = "0x003C72"
+	disabledColor = "0x333333"
+	fontWeight = "normal"
+	cornerRadius = "4"
+	rollOverColor = "0xDEE5DC"
+	selectionColor = "0xEBF2E9"
+	textRollOverColor="0x034E6B"
+	textSelectedColor="0x003C72"
+	click="abrirEnNavegador('https://github.com/fooghub/Reloj-Flex-Air')" />
+</mx:HBox>
+
+
+<mx:HBox width = "100%" height = "24" verticalAlign ="middle" horizontalAlign ="center" horizontalGap = "0" verticalGap = "0" paddingTop = "6" paddingBottom = "0">
+	<mx:Image source="@Embed(source='/images/ccgris.png')" width = "16" height = "16" toolTip = "Creative Commons -No comercial-"/>
+	<mx:Text id = "year" text = "" styleName = "texto5"/>
+	<mx:Text text = "Foog.Software" styleName = "texto5"/>
+</mx:HBox>
+
+<mx:HBox width = "100%" height = "18" verticalAlign ="middle" horizontalAlign ="center" horizontalGap = "0" verticalGap = "0" paddingTop = "0" paddingBottom = "0">
+	<mx:LinkButton
+	id ="enlace"
+	enabled = "false"
+	label="www.foog.es"
+	fontSize = "10"
+	color = "0x003C72"
+	disabledColor = "0x333333"
+	fontWeight = "normal"
+	cornerRadius = "4"
+	rollOverColor = "0xDEE5DC"
+	selectionColor = "0xEBF2E9"
+	textRollOverColor="0x034E6B"
+	textSelectedColor="0x003C72"
+	click="abrirEnNavegador('http://www.foog.es/')"/>
+</mx:HBox>
+
+</mx:VBox>
+</mx:VBox>
+</mx:Window>	
