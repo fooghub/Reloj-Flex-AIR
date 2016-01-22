@@ -178,7 +178,7 @@ Ahora, en un alojamiento Web, privado, disponemos de una sección con la siguien
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **reloj.air**
 
-**(1) El archivo update.xml** es el **descriptor** del almacenamiento de actualizaciones y debe seguir este esquema, **y no otro**:
+**(1) El archivo update.xml** es el **descriptor** del almacenamiento de actualizaciones, debe seguir este esquema **y no otro**:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?> 
