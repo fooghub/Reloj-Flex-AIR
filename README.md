@@ -1,7 +1,7 @@
 ## Reloj-Flex-AIR 
 
 ***
-![Reloj](img/icono_DOC_50.png "Reloj")
+![Reloj](https://github.com/fooghub/Reloj-Flex-AIR/blob/master/doc/img/icono_DOC_50.png "Reloj")
 
 El reloj original es una presentación "**Flash**" que forma parte de la colección de ejemplos distribuidos con licencias **Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License** y **Creative Commons Plus License for Adobe example code**, desde el:
 
