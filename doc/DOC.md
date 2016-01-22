@@ -51,11 +51,11 @@ Aquí una estupenda guía teórica, en castellano: [**Creación de aplicaciones 
 
 #### Trabajando con el ejemplo Reloj Flex Air
 
-Repositorio en **GitHub** : [https://github.com/fooghub/Reloj-Flex-Air](https://github.com/fooghub/Reloj-Flex-Air "GitHub Reloj-Flex-Air")
+Repositorio en **GitHub** : [https://github.com/fooghub/Reloj-Flex-Air](https://github.com/fooghub/Reloj-Flex-AIR "GitHub Reloj-Flex-AIR")
 	
-* Descarga el archivo **Reloj-Flex-Air-master.zip** (pulsando en el botón **DOWNLOAD ZIP**).	
+* Descarga el archivo **Reloj-Flex-AIR-master.zip** (pulsando en el botón **DOWNLOAD ZIP**).	
 
-* Extrae los archivos de **Reloj-Flex-Air-master.zip**  (por ejemplo, en el escritorio).
+* Extrae los archivos de **Reloj-Flex-AIR-master.zip**  (por ejemplo, en el escritorio).
 
 * Examina el sistema de archivos de la aplicación, en particular el código de **reloj-app.xml** (**descriptor** de propiedades básicas).
 
