@@ -166,7 +166,7 @@ Además, la **actualización** funcionará sólo sí:
 
 Ahora, en un alojamiento Web, privado, disponemos de una sección con la siguiente estructura:
 
-***http// .. /download/***
+***http// ... /download/***
 
 &nbsp;&nbsp;&nbsp;&nbsp; ***air/*** 
 
