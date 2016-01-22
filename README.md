@@ -15,10 +15,11 @@ En la documentación de este proyecto:
 
 [**doc/DOC.md**](https://github.com/fooghub/Reloj-Flex-AIR/blob/master/doc/DOC.md)
 
-Puedes leer y seguir el proceso de programación, empaquetado y distribución del **reloj.air**, una aplicación **Flex** de ejemplo.
+Puedes leer y seguir el proceso de programación, empaquetado y distribución del **reloj.air**, una aplicación de ejemplo.
 
-Saludos
-----
+Saludos.
+
+****
 
 >2004 - 2016 Foog.Software
 >
