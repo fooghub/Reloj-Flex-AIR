@@ -215,7 +215,7 @@ que contiene ahora los archivos **residuales** utilizados en el proceso de actua
 
 **Reloj (versión 0.0.1):**
 
-Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"), puedes descargar e instalar una primera versión de la aplicación para observar su aspecto y, si te gusta, actualizarla para comprobar los (pocos) cambios relizados.
+Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"), puedes descargar e instalar una primera versión de la aplicación para observar su aspecto y, si te gusta, actualizarla para comprobar los (pocos) cambios realizados.
 
 Saludos.
 
