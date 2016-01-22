@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.1">
+<id>es.foog.reloj</id>	
+<filename>Reloj</filename>
+<name>
+<text xml:lang="es">Reloj 1.0.1 : Foog.Software.</text>
+<text xml:lang="en">Clock 1.0.1 : Foog.Software.</text>
+</name>
+<versionNumber>1.0.1</versionNumber>
+<description>
+<text xml:lang="es">Reloj Flex Air: "Widget" de escritorio para Windows y OS X.</text>
+<text xml:lang="en">Watch Flex Air: Desktop widget for Windows and OS X.</text>
+</description>
+<copyright>2004 - 2016 Foog.Software.</copyright>
+<initialWindow>
+<content>index.swf</content>
+<systemChrome>none</systemChrome>
+<transparent>true</transparent>
+</initialWindow>
+<installFolder>foog/reloj</installFolder>
+<icon>
+<image16x16>images/icon_16.png</image16x16>
+<image32x32>images/icon_32.png</image32x32>
+<image36x36>images/icon_36.png</image36x36>
+<image48x48>images/icon_48.png</image48x48>
+<image57x57>images/icon_57.png</image57x57>
+<image72x72>images/icon_72.png</image72x72>
+<image114x114>images/icon_114.png</image114x114>
+<image128x128>images/icon_128.png</image128x128>
+</icon>
+<customUpdateUI>true</customUpdateUI>
+<allowBrowserInvocation>true</allowBrowserInvocation>	    
+</application>
