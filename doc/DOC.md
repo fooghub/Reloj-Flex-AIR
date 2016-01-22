@@ -49,9 +49,9 @@ Aquí una estupenda guía teórica, en castellano: [**Creación de aplicaciones 
 
 * **Adobe AIR SDK** o **Adobe Flex SDK** (como en el ejemplo siguiente).    
 
-#### Trabajando con el ejemplo Reloj Flex Air
+#### Trabajando con el ejemplo Reloj Flex AIR
 
-Repositorio en **GitHub** : [https://github.com/fooghub/Reloj-Flex-Air](https://github.com/fooghub/Reloj-Flex-AIR "GitHub Reloj-Flex-AIR")
+Repositorio en **GitHub** : [https://github.com/fooghub/Reloj-Flex-AIR](https://github.com/fooghub/Reloj-Flex-AIR "GitHub Reloj-Flex-AIR")
 	
 * Descarga el archivo **Reloj-Flex-AIR-master.zip** (pulsando en el botón **DOWNLOAD ZIP**).	
 
