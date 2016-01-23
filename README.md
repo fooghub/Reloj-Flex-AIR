@@ -25,7 +25,7 @@ $ adl reloj-app.xml
 
 Si quieres ahorrarte el trabajo, desde Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"),  puedes descargar e instalar **reloj.air** versión -muestra- 0.0.1 (actualiza después de la primera instalación) para ver el resultado final.
 
-***Recuerda***, *sólo **Windows** o **Mac OS X**. Las aplicaciones **AIR** de escritorio, para su instalación y funcionamiento, precisan del motor de ejecucción [**Adobe AIR (Runtime)**.](https://get.adobe.com/es/air/ "Adobe AIR")*  
+***Recuerda***, *sólo Windows o Mac OS X. Las aplicaciones AIR de escritorio, para su instalación y funcionamiento, precisan del motor de ejecucción [Adobe AIR (Runtime).](https://get.adobe.com/es/air/ "Adobe AIR")*  
 
 En la documentación de este proyecto:
 
