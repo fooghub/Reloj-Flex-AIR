@@ -178,7 +178,7 @@ Ahora, en un alojamiento Web, privado, disponemos de una sección con la siguien
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **reloj.air**
 
-**(1) El archivo update.xml** es el **descriptor** del almacenamiento de actualizaciones, debe seguir este esquema **y no otro**:
+**(1) El archivo update.xml** es el **descriptor** del almacenamiento de actualizaciones, debe seguir este esquema:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?> 
@@ -194,7 +194,7 @@ Ahora, en un alojamiento Web, privado, disponemos de una sección con la siguien
  ```	
 En este proyecto, el código que procura la comunicación con el "repositorio" de actualizaciones se encuentra en el archivo (flex) **index.mxml**. Analizar la función:
 
-```
+```java
 private function comprobarActualizaciones(repositorioActualizaciones:String):void{
 	...;
 }	
@@ -213,7 +213,7 @@ C:\Users\[usuario]\AppData\Roaming\es.foog.reloj[id de la aplicación]\Local Sto
 que contiene ahora los archivos **residuales** utilizados en el proceso de actualización.
 
 
-**Reloj (versión 0.0.1):**
+**Reloj (versión -muestra- 0.0.1):**
 
 Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"), puedes descargar e instalar una primera versión de la aplicación para observar su aspecto y, si te gusta, actualizarla para comprobar los (pocos) cambios realizados.
 
