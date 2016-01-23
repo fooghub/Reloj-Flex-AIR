@@ -23,9 +23,9 @@ $ adl reloj-app.xml
 **ADL**, precisa [**Java**](http://www.oracle.com/technetwork/java/javase/downloads/ "Java - downloads").
  (JRE o JDK) y [**Adobe AIR SDK**](http://www.adobe.com/devnet/air/air-sdk-download.html "Adobe AIR SDK") o [**Adobe Flex (SDK)**.](http://www.adobe.com/devnet/flex/flex-sdk-download.html "Adobe Flex (SDK)")
 
-Si quieres ahorrarte el trabajo, desde Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"),  puedes descargar e instalar **reloj.air** versión -muestra- 0.0.1 (actualiza después de la primera instalación) para ver el resultado final.
+Si quieres ahorrarte el trabajo, desde Desde [**este enlace**](http://www.foog.es/download/air/reloj/installer/app/reloj.air "reloj.air 0.0.1"),  puedes descargar e instalar (sólo Windows o Mac) **reloj.air** versión -muestra- 0.0.1 (actualiza después de la primera instalación) para ver el resultado final.
 
-***Recuerda***, *sólo Windows o Mac OS X. Las aplicaciones AIR de escritorio, para su instalación y funcionamiento, precisan del motor de ejecucción [Adobe AIR (Runtime).](https://get.adobe.com/es/air/ "Adobe AIR")*  
+***Recuerda***, *Las aplicaciones AIR de escritorio, para su instalación y funcionamiento, precisan del motor de ejecucción [Adobe AIR (Runtime).](https://get.adobe.com/es/air/ "Adobe AIR")*  
 
 En la documentación de este proyecto:
 
